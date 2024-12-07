@@ -56,7 +56,7 @@ function updateFooter(nodes, footer)
     monitor.setCursorPos(1, startLine + nodeLength + 4)
     monitor.write(" Total Output: " .. footer.output .. " FE/t             ")
     monitor.setCursorPos(1, startLine + nodeLength + 5)
-    
+
     local percentFilled = string.format("%.2f", footer.fullness * 100)
     monitor.write("  Percent Filled: " .. percentFilled .. "%           ")
 end
@@ -69,11 +69,10 @@ while true do
     local id, message = rednet.receive("energyTransmission")
 
     if message.name == "Induction Matrix" then
-        print(textutils.serialize(message))
         local footer = {
-            input = input,
-            output = output,
-            fullness = fullness
+            input = message.input,
+            output = message.output,
+            fullness = message.fullness
         }
 
         updateFooter(nodes, footer)
