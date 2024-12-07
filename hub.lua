@@ -74,4 +74,5 @@ while true do
     else
         nodes[message.name] = message.energy
         updateDisplay(nodes)
+    end
 end
