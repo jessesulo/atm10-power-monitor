@@ -18,8 +18,8 @@ function monitorInit()
 end
 
 function clearMonitor()
-    for i = 1, screenY do
-        for j = 1, screenX do
+    for i = 1, monitorY do
+        for j = 1, monitorX do
             monitor.setCursorPos(j, i)
             monitor.write(" ")
         end
@@ -27,14 +27,14 @@ function clearMonitor()
 end
 
 function drawLine(y)
-    for i = 1, screenX do
+    for i = 1, monitorX do
         monitor.setCursorPos(i, y)
         monitor.write("-")
     end
 end
 
 function centerText(text, y)
-    local x = math.floor((screenX - string.len(text)) / 2)
+    local x = math.floor((monitorX - string.len(text)) / 2)
     monitor.setCursorPos(x, y)
     monitor.write(text)
 end
