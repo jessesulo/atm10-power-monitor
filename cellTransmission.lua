@@ -8,8 +8,9 @@ rednet.open("right")
 rednet.CHANNEL_BROADCAST = 1414
 
 term.clear()
+term.setCursorPos(1, 1)
 
-print("Transmitting energy data...")
+print("Transmitting energy data from " .. name .. "...")
 
 local totalEnergy = 0
 local count = 1

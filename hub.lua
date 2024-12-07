@@ -1,15 +1,30 @@
-local monitor = peripheral.find("monitor")
-monitor.clear()
-monitor.setTextScale(1)
-monitor.setTextColor(colors.red)
-monitor.setBackgroundColor(colors.cyan)
+local monitor
+local monitorX, monitorY
 
 rednet.open("right")
 rednet.CHANNEL_BROADCAST = 1414
 
 local startLine = 4
+
 local nodeLength = 0
 local oldLength = 0
+
+function monitorInit()
+    monitor = peripheral.find("monitor")
+    monitorX, monitorY = monitor.getSize()
+
+    monitor.clear()
+    monitor.setTextScale(1)
+    monitor.setTextColor(colors.red)
+    monitor.setBackgroundColor(colors.cyan)
+end
+
+function clearMonitor()
+    for i = 1, 25 do
+        monitor.setCursorPos(1, i)
+        monitor.write("                             ")
+    end
+end
 
 function updateDisplay(nodes)
     monitor.setCursorPos(1, 2)
@@ -24,15 +39,12 @@ function updateDisplay(nodes)
     oldLength = nodeLength
 
     if(nodeLength > oldLength) then
-        for i = 1, 25 do
-            monitor.setCursorPos(1, startLine + i)
-            monitor.write("                             ")
-        end
+        clearMonitor()
     end
 
     if length == 0 then
         monitor.setCursorPos(1, startLine+1)
-        monitor.write("      No nodes found")
+        monitor.write("        No nodes found")
         return
     else
         monitor.setCursorPos(1, startLine+1)
@@ -60,29 +72,30 @@ function updateFooter(nodes, footer)
     
     footer.output = footer.output:match("^[^.]*")
     footer.output = footer.output:reverse():gsub("(%d%d%d)", "%1,"):gsub(",$", ""):reverse()
+
+    footer.stored = footer.stored:match("^[^.]*")
+    footer.stored = footer.stored:reverse():gsub("(%d%d%d)", "%1,"):gsub(",$", ""):reverse()
     
-    monitor.setCursorPos(1, startLine + nodeLength)
-    monitor.write("                             ")
-
-    monitor.setCursorPos(1, startLine + nodeLength + 1)
-    monitor.write("                             ")
-
-    monitor.setCursorPos(1, startLine + nodeLength + 2)
+    monitor.setCursorPos(1, screenY - 5)
     monitor.write("-----------------------------")
     
-    monitor.setCursorPos(1, startLine + nodeLength + 3)
+    monitor.setCursorPos(1, screenY - 4)
     monitor.write(" Total Input: " .. footer.input .. " FE/t              ")
     
-    monitor.setCursorPos(1, startLine + nodeLength + 4)
+    monitor.setCursorPos(1, screenY - 3)
     monitor.write(" Total Output: " .. footer.output .. " FE/t             ")
     
-    monitor.setCursorPos(1, startLine + nodeLength + 5)
-    local percentFilled = string.format("%.2f", footer.fullness * 100)
-    monitor.write("  Percent Filled: " .. percentFilled .. "%           ")
+    monitor.setCursorPos(1, screenY - 2)
+    monitor.write(" Total Stored: " .. footer.stored .. " FE/t             ")
+
+    monitor.setCursorPos(1, screenY - 1)
+    local capacity = string.format("%.2f", footer.capacity * 100)
+    monitor.write(" Remaining Capacity: " .. capacity .. "%           ")
 end
 
 local nodes = {}
 
+monitorInit()
 updateDisplay(nodes)
 
 while true do
