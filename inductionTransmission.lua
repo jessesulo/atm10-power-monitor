@@ -14,9 +14,11 @@ local totalEnergy = 0
 local count = 1
 
 while true do
-    local input = peripheral.call(cell, "getLastInput")
-    local output = peripheral.call(cell, "getLastOutput")
-    local fullness = peripheral.call(cell, "getEnergyFilledPercentage")
+    local induction_matrix = peripheral.find('inductionPort')
+
+    local input = induction_matrix.getLastInput()
+    local output = induction_matrix.getLastOutput()
+    local fullness = induction_matrix.getEnergyFilledPercentage()
 
     local payload = {
         name = name,
@@ -24,9 +26,6 @@ while true do
         output = tostring(output),
         fullness = tostring(fullness)
     }
-
-    print("Transmitting data:")
-    print(textutils.serialize(payload))
 
     rednet.broadcast(payload, "energyTransmission")
 
