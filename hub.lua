@@ -73,22 +73,22 @@ function updateFooter(nodes, footer)
     footer.stored = footer.stored:match("^[^.]*")
     footer.stored = footer.stored:reverse():gsub("(%d%d%d)", "%1,"):gsub(",$", ""):reverse()
     
-    monitor.setCursorPos(1, screenY - 6)
+    monitor.setCursorPos(1, monitorY - 6)
     monitor.write("        Energy Overview        ")
     
-    monitor.setCursorPos(1, screenY - 5)
+    monitor.setCursorPos(1, monitorY - 5)
     monitor.write("-----------------------------")
     
-    monitor.setCursorPos(1, screenY - 4)
+    monitor.setCursorPos(1, monitorY - 4)
     monitor.write(" Total Input: " .. footer.input .. " FE/t              ")
     
-    monitor.setCursorPos(1, screenY - 3)
+    monitor.setCursorPos(1, monitorY - 3)
     monitor.write(" Total Output: " .. footer.output .. " FE/t             ")
     
-    monitor.setCursorPos(1, screenY - 2)
+    monitor.setCursorPos(1, monitorY - 2)
     monitor.write(" Total Stored: " .. footer.stored .. " FE/t             ")
 
-    monitor.setCursorPos(1, screenY - 1)
+    monitor.setCursorPos(1, monitorY - 1)
     local capacity = string.format("%.2f", footer.capacity * 100)
     monitor.write(" Remaining Capacity: " .. capacity .. "%           ")
 end
