@@ -56,8 +56,6 @@ end
 function updateFooter(nodes, footer)
     updateDisplay(nodes)
     
-    print(textutils.serialize(footer))
-
     footer.input = footer.input:match("^[^.]*")
     footer.input = footer.input:reverse():gsub("(%d%d%d)", "%1,"):gsub(",$", ""):reverse()
     
