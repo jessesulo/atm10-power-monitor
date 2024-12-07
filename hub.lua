@@ -8,7 +8,8 @@ rednet.open("right")
 rednet.CHANNEL_BROADCAST = 1414
 
 local startLine = 4
-local nodeLength
+local nodeLength = 0
+local oldLength = 0
 
 function updateDisplay(nodes)
     monitor.clear()
@@ -20,6 +21,14 @@ function updateDisplay(nodes)
     nodeLength = 0
     for name, energy in pairs(nodes) do
         nodeLength = nodeLength + 1
+    end
+    oldLength = nodeLength
+
+    if(nodeLength > oldLength) then
+        for i = 1, 25 do
+            monitor.setCursorPos(1, startLine + i)
+            monitor.write("                             ")
+        end
     end
 
     if length == 0 then
@@ -49,14 +58,22 @@ function updateFooter(nodes, footer)
     
     print(textutils.serialize(footer))
 
+    footer.input = footer.input:match("^[^.]*")
+    footer.input = footer.input:reverse():gsub("(%d%d%d)", "%1,"):gsub(",$", ""):reverse()
+    
+    footer.output = footer.output:match("^[^.]*")
+    footer.output = footer.output:reverse():gsub("(%d%d%d)", "%1,"):gsub(",$", ""):reverse()
+    
     monitor.setCursorPos(1, startLine + nodeLength + 2)
     monitor.write("-----------------------------")
+    
     monitor.setCursorPos(1, startLine + nodeLength + 3)
     monitor.write(" Total Input: " .. footer.input .. " FE/t              ")
+    
     monitor.setCursorPos(1, startLine + nodeLength + 4)
     monitor.write(" Total Output: " .. footer.output .. " FE/t             ")
+    
     monitor.setCursorPos(1, startLine + nodeLength + 5)
-
     local percentFilled = string.format("%.2f", footer.fullness * 100)
     monitor.write("  Percent Filled: " .. percentFilled .. "%           ")
 end
