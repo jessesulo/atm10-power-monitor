@@ -21,7 +21,7 @@ function updateDisplay(nodes)
         nodeLength = nodeLength + 1
     end
 
-    if length < 1 then
+    if length == 0 then
         monitor.setCursorPos(1, startLine+1)
         monitor.write("      No nodes found")
         return
@@ -46,6 +46,8 @@ end
 function updateFooter(nodes, footer)
     updateDisplay(nodes)
     
+    print(textutils.serialize(footer))
+
     monitor.setCursorPos(1, startLine + nodeLength + 2)
     monitor.write("-----------------------------")
     monitor.setCursorPos(1, startLine + nodeLength + 3)
