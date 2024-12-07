@@ -14,20 +14,35 @@ function monitorInit()
     monitor.setTextScale(1)
     monitor.setTextColor(colors.white)
     monitor.setBackgroundColor(colors.blue)
+    clearMonitor()
 end
 
 function clearMonitor()
-    for i = 1, 25 do
-        monitor.setCursorPos(1, i)
-        monitor.write("                             ")
+    for i = 1, screenY do
+        for j = 1, screenX do
+            monitor.setCursorPos(j, i)
+            monitor.write(" ")
+        end
     end
+end
+
+function drawLine(y)
+    for i = 1, screenX do
+        monitor.setCursorPos(i, y)
+        monitor.write("-")
+    end
+end
+
+function centerText(text, y)
+    local x = math.floor((screenX - string.len(text)) / 2)
+    monitor.setCursorPos(x, y)
+    monitor.write(text)
 end
 
 function updateDisplay(nodes)
     monitor.setCursorPos(1, 2)
-    monitor.write("        Energy Monitor        ")
-    monitor.setCursorPos(1, 3)
-    monitor.write("-----------------------------")
+    centerText("Energy Monitor", 2)
+    drawLine(3)
 
     nodeLength = 0
     for name, energy in pairs(nodes) do
@@ -40,8 +55,7 @@ function updateDisplay(nodes)
     end
 
     if length == 0 then
-        monitor.setCursorPos(1, startLine+1)
-        monitor.write("        No nodes found")
+        centerText("No nodes found", startLine+1)
         return
     else
         monitor.setCursorPos(1, startLine+1)
@@ -73,11 +87,10 @@ function updateFooter(nodes, footer)
     footer.stored = footer.stored:match("^[^.]*")
     footer.stored = footer.stored:reverse():gsub("(%d%d%d)", "%1,"):gsub(",$", ""):reverse()
     
-    monitor.setCursorPos(1, monitorY - 6)
-    monitor.write("        Energy Overview        ")
+    centerText("Energy Overview", monitorY - 6)
     
     monitor.setCursorPos(1, monitorY - 5)
-    monitor.write("-----------------------------")
+    drawLine(monitorY - 5)
     
     monitor.setCursorPos(1, monitorY - 4)
     monitor.write(" Total Input: " .. footer.input .. " FE/t              ")
