@@ -12,7 +12,6 @@ local nodeLength = 0
 local oldLength = 0
 
 function updateDisplay(nodes)
-    monitor.clear()
     monitor.setCursorPos(1, 2)
     monitor.write("        Energy Monitor        ")
     monitor.setCursorPos(1, 3)
@@ -62,6 +61,12 @@ function updateFooter(nodes, footer)
     footer.output = footer.output:match("^[^.]*")
     footer.output = footer.output:reverse():gsub("(%d%d%d)", "%1,"):gsub(",$", ""):reverse()
     
+    monitor.setCursorPos(1, startLine + nodeLength)
+    monitor.write("                             ")
+
+    monitor.setCursorPos(1, startLine + nodeLength + 1)
+    monitor.write("                             ")
+
     monitor.setCursorPos(1, startLine + nodeLength + 2)
     monitor.write("-----------------------------")
     
