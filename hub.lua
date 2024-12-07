@@ -11,6 +11,7 @@ local startLine = 4
 local nodeLength
 
 function updateDisplay(nodes)
+    monitor.clear()
     monitor.setCursorPos(1, 2)
     monitor.write("        Energy Monitor        ")
     monitor.setCursorPos(1, 3)
@@ -51,11 +52,13 @@ function updateFooter(nodes, footer)
     monitor.setCursorPos(1, startLine + nodeLength + 2)
     monitor.write("-----------------------------")
     monitor.setCursorPos(1, startLine + nodeLength + 3)
-    monitor.write(" Total Input: " .. footer.input .. " FE/t")
+    monitor.write(" Total Input: " .. footer.input .. " FE/t              ")
     monitor.setCursorPos(1, startLine + nodeLength + 4)
-    monitor.write("Total Output: " .. footer.output .. " FE/t")
+    monitor.write(" Total Output: " .. footer.output .. " FE/t             ")
     monitor.setCursorPos(1, startLine + nodeLength + 5)
-    monitor.write("  Percent Filled: " .. footer.fullness .. "%")
+    
+    local percentFilled = string.format("%.2f", footer.fullness * 100)
+    monitor.write("  Percent Filled: " .. percentFilled .. "%           ")
 end
 
 local nodes = {}
@@ -66,6 +69,7 @@ while true do
     local id, message = rednet.receive("energyTransmission")
 
     if message.name == "Induction Matrix" then
+        print(textutils.serialize(message))
         local footer = {
             input = input,
             output = output,
