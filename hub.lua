@@ -1,5 +1,5 @@
-local monitor
-local monitorX, monitorY
+local monitor = peripheral.find("monitor")
+local monitorX, monitorY = monitor.getSize()
 
 rednet.open("right")
 rednet.CHANNEL_BROADCAST = 1414
@@ -10,13 +10,10 @@ local nodeLength = 0
 local oldLength = 0
 
 function monitorInit()
-    monitor = peripheral.find("monitor")
-    monitorX, monitorY = monitor.getSize()
-
     monitor.clear()
     monitor.setTextScale(1)
-    monitor.setTextColor(colors.red)
-    monitor.setBackgroundColor(colors.cyan)
+    monitor.setTextColor(colors.white)
+    monitor.setBackgroundColor(colors.blue)
 end
 
 function clearMonitor()
@@ -76,6 +73,9 @@ function updateFooter(nodes, footer)
     footer.stored = footer.stored:match("^[^.]*")
     footer.stored = footer.stored:reverse():gsub("(%d%d%d)", "%1,"):gsub(",$", ""):reverse()
     
+    monitor.setCursorPos(1, screenY - 6)
+    monitor.write("        Energy Overview        ")
+    
     monitor.setCursorPos(1, screenY - 5)
     monitor.write("-----------------------------")
     
@@ -105,7 +105,8 @@ while true do
         local footer = {
             input = message.input,
             output = message.output,
-            fullness = message.fullness
+            stored = message.stored,
+            capacity = message.capacity
         }
 
         updateFooter(nodes, footer)

@@ -28,7 +28,7 @@ while true do
         name = name,
         input = tostring(input / mysteryMultiple),
         output = tostring(output / mysteryMultiple),
-        capacity = tostring(1 - capacity / mysteryMultiple)
+        capacity = tostring(1 - capacity),
         stored = tostring(stored / mysteryMultiple)
     }
 
