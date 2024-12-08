@@ -12,19 +12,30 @@ print("Transmitting storage data from the controller...")
 local inv = peripheral.find("inventory")
 local invSize = inv.size()
 
+local lastPayload = {}
+
 while true do
     local itemPayload = {}
     for i = 1, invSize do
         local item = inv.getItemDetail(i)
 
         if item ~= null then
+
+            local difference = 0
+            if(lastPayload[item.displayName] ~= nil) then
+                difference = lastPayload[item.displayName] - item.count
+            else
+                lastPayload[item.displayName] = item.count
+            end
+
             table.insert(itemPayload,{
                 name = item.displayName,
-                count = item.count
+                count = item.count,
+                difference = difference,
             })
         end
     end
     rednet.broadcast(itemPayload, "storageTransmission")
-
-    sleep(5)
+    lastPayload = itemPayload
+    sleep(1)
 end

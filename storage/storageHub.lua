@@ -40,6 +40,7 @@ function centerText(text, y)
 end
 
 function updateDisplay(nodes, start, endL)
+    clearMonitor()
     monitor.setCursorPos(1, 2)
     centerText("Storage Monitor", 2)
     drawLine(3)
@@ -58,8 +59,8 @@ function updateDisplay(nodes, start, endL)
             break
         end
         
-        monitor.setCursorPos(1, startLine+i)
-        monitor.write(i .. ". " .. nodes[i].name .. " - " .. nodes[i].count)
+        monitor.setCursorPos(1, lineTrack)
+        monitor.write(i .. ". " .. nodes[i].name .. " - " .. nodes[i].count .. " (" .. nodes[i].difference .. ")")
         
         lineTrack = lineTrack + 1
     end
@@ -82,6 +83,6 @@ while true do
     while cursor < #message do
         updateDisplay(message, cursor, cursor + offset)
         cursor = cursor + offset
-        sleep(5)
+        sleep(7)
     end
 end
