@@ -52,9 +52,16 @@ function updateDisplay(nodes, start, endL)
         monitor.write("                             ")
     end
 
+    local lineTrack = startLine
     for i=start,endL do
+        if(nodes[i] == nil) then
+            break
+        end
+        
         monitor.setCursorPos(1, startLine+i)
         monitor.write(i .. ". " .. nodes[i].name .. " - " .. nodes[i].count)
+        
+        lineTrack = lineTrack + 1
     end
 end
 
@@ -73,7 +80,7 @@ while true do
 
     local cursor = 1
     while cursor < #message do
-        updateDisplay(message, cursor, offset)
+        updateDisplay(message, cursor, cursor + offset)
         cursor = cursor + offset
         sleep(5)
     end
