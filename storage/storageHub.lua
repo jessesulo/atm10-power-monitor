@@ -41,7 +41,8 @@ end
 
 function parseNumber(number)
     local formatted = number
-    
+    number = tonumber(number)
+
     if number > 1000000000000000 then
         formatted = string.format("%.2f", number / 1000000000000) .. "G"
     elseif number > 1000000000000 then

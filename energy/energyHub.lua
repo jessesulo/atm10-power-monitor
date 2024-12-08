@@ -41,7 +41,8 @@ end
 
 function parseNumber(number)
     local formatted = number
-    
+    number = tonumber(number)
+
     if number > 1000000000000000 then
         formatted = string.format("%.2f", number / 1000000000000) .. "G"
     elseif number > 1000000000000 then
@@ -95,14 +96,9 @@ end
 function updateFooter(nodes, footer)
     updateDisplay(nodes)
     
-    footer.input = footer.input:match("^[^.]*")
-    footer.input = footer.input:reverse():gsub("(%d%d%d)", "%1,"):gsub(",$", ""):reverse()
-    
-    footer.output = footer.output:match("^[^.]*")
-    footer.output = footer.output:reverse():gsub("(%d%d%d)", "%1,"):gsub(",$", ""):reverse()
-
-    footer.stored = footer.stored:match("^[^.]*")
-    footer.stored = footer.stored:reverse():gsub("(%d%d%d)", "%1,"):gsub(",$", ""):reverse()
+    footer.input = parseNumber(footer.input)
+    footer.output = parseNumber(footer.output)
+    footer.stored = parseNumber(footer.stored)
     
     centerText("Energy Overview", monitorY - 6)
     
@@ -110,13 +106,13 @@ function updateFooter(nodes, footer)
     drawLine(monitorY - 5)
     
     monitor.setCursorPos(1, monitorY - 4)
-    monitor.write(" Total Input: " .. footer.input .. " FE/t              ")
+    monitor.write(" Total Input: " .. footer.input .. "                   ")
     
     monitor.setCursorPos(1, monitorY - 3)
-    monitor.write(" Total Output: " .. footer.output .. " FE/t             ")
+    monitor.write(" Total Output: " .. footer.output .. "                 ")
     
     monitor.setCursorPos(1, monitorY - 2)
-    monitor.write(" Total Stored: " .. footer.stored .. " FE/t             ")
+    monitor.write(" Total Stored: " .. footer.stored .. "                 ")
 
     monitor.setCursorPos(1, monitorY - 1)
     local capacity = string.format("%.2f", footer.capacity * 100)
