@@ -23,7 +23,7 @@ while true do
 
             local difference = 0
             if(lastPayload[item.displayName] ~= nil) then
-                difference = lastPayload[item.displayName] - item.count
+                difference = item.count - lastPayload[item.displayName]
             else
                 lastPayload[item.displayName] = item.count
             end
@@ -36,6 +36,5 @@ while true do
         end
     end
     rednet.broadcast(itemPayload, "storageTransmission")
-    lastPayload = itemPayload
     sleep(1)
 end
