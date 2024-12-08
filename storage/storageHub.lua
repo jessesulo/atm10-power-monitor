@@ -64,7 +64,7 @@ function updateDisplay(nodes, start, endL)
     local pageNumber = start / offset
     local xoffset = monitorX - (string.len(tostring(pageNumber)) + string.len(tostring(#nodes/offset)) + 6)
     monitor.setCursorPos(xoffset, 2)
-    monitor.write("Page " .. pageNumber .. "/" .. math.ceil(#nodes/offset))
+    monitor.write("Page " .. math.ceil(pageNumber) .. "/" .. math.ceil(#nodes/offset))
 
     drawLine(3)
 
