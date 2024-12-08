@@ -92,7 +92,7 @@ function updateDisplay(nodes, start, endL)
         end
 
         monitor.setCursorPos(string.len(outString) + 2, lineTrack)
-        monitor.write("(" .. differenceStr .. nodes[i].difference .. ")")
+        monitor.write("(" .. differenceStr .. parseNumber(nodes[i].difference) .. ")")
 
         monitor.setTextColor(colors.black)
 

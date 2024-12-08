@@ -87,7 +87,7 @@ function updateDisplay(nodes)
 
         energy = parseNumber(energy)
 
-        monitor.write(" " .. name .. ": " .. energy .. "                        ")
+        monitor.write(" " .. name .. ": " .. energy .. "FE/T                       ")
 
         lineCount = lineCount + 1
     end
@@ -106,13 +106,13 @@ function updateFooter(nodes, footer)
     drawLine(monitorY - 5)
     
     monitor.setCursorPos(1, monitorY - 4)
-    monitor.write(" Total Input: " .. footer.input .. "                   ")
+    monitor.write(" Total Input: " .. footer.input .. "FE/T                   ")
     
     monitor.setCursorPos(1, monitorY - 3)
-    monitor.write(" Total Output: " .. footer.output .. "                 ")
+    monitor.write(" Total Output: " .. footer.output .. "FE/T                ")
     
     monitor.setCursorPos(1, monitorY - 2)
-    monitor.write(" Total Stored: " .. footer.stored .. "                 ")
+    monitor.write(" Total Stored: " .. footer.stored .. "FE/T                ")
 
     monitor.setCursorPos(1, monitorY - 1)
     local capacity = string.format("%.2f", footer.capacity * 100)
