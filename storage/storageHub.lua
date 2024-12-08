@@ -59,6 +59,10 @@ function updateDisplay(nodes, start, endL)
             break
         end
         
+        local outString = i .. ". " .. nodes[i].name .. " - " .. nodes[i].count
+        monitor.setCursorPos(1, lineTrack)
+        monitor.write(outString)
+        
         local differenceStr = ""
         if nodes[i].difference > 0 then
             monitor.setTextColor(colors.green)
@@ -69,9 +73,9 @@ function updateDisplay(nodes, start, endL)
             monitor.setTextColor(colors.black)
         end
 
-        monitor.setCursorPos(1, lineTrack)
-        monitor.write(i .. ". " .. nodes[i].name .. " - " .. nodes[i].count .. " (" .. differenceStr .. nodes[i].difference .. ")")
-        
+        monitor.setCursorPos(string.len(outString) + 1, lineTrack)
+        monitor.write("(" .. differenceStr .. nodes[i].difference .. ")")
+
         lineTrack = lineTrack + 1
     end
 end
