@@ -39,12 +39,12 @@ function centerText(text, y)
     monitor.write(text)
 end
 
-function updateDisplay(nodes, start, end)
+function updateDisplay(nodes, start, endL)
     monitor.setCursorPos(1, 2)
     centerText("Storage Monitor", 2)
     drawLine(3)
 
-    if length == 0 then
+    if #nodes == 0 then
         centerText("No items found", startLine+1)
         return
     else
@@ -52,9 +52,9 @@ function updateDisplay(nodes, start, end)
         monitor.write("                             ")
     end
 
-    for i = start, end do
+    for i=start,endL do
         monitor.setCursorPos(1, startLine+1)
-        monitor.write(nodes[i].name)
+        monitor.write(i .. ". " .. nodes[i].name)
         monitor.setCursorPos(monitorX-#nodes[i].count, startLine+1)
         monitor.write(nodes[i].count)
     end
@@ -63,9 +63,11 @@ end
 local nodes = {}
 
 monitorInit()
-updateDisplay(nodes)
 
-local cursor = 1
+
+local offset = monitorY-4
+updateDisplay(nodes, 1, offset)
+
 while true do
     local id, message = rednet.receive("storageTransmission")
 
@@ -75,5 +77,11 @@ while true do
 
     table.sort(nodes, function(a, b) return a.count < b.count end)
 
-    updateDisplay(nodes, cursor, cursor+screenY-4)
+    local cursor = 1
+
+    while cursor < #nodes do
+        updateDisplay(nodes, cursor, offset)
+        cursor = cursor + offset
+        sleep(5)
+    end
 end
