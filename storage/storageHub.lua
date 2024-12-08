@@ -66,7 +66,7 @@ function updateDisplay(nodes, start, endL)
         elseif nodes[i].difference < 0 then
             monitor.setTextColor(colors.red)
         else
-            monitor.setTextColor(colors.white)
+            monitor.setTextColor(colors.black)
         end
 
         monitor.setCursorPos(1, lineTrack)
