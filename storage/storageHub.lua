@@ -5,9 +5,7 @@ rednet.open("right")
 rednet.CHANNEL_BROADCAST = 1414
 
 local startLine = 4
-
-local nodeLength = 0
-local oldLength = 0
+local offset = monitorY-4
 
 function monitorInit()
     monitor.clear()
@@ -62,6 +60,12 @@ function updateDisplay(nodes, start, endL)
     clearMonitor()
     monitor.setCursorPos(1, 2)
     centerText("Storage Monitor", 2)
+
+    local pageNumber = start / offset
+    local xoffset = monitorX - (string.len(tostring(pageNumber)) + string.len(tostring(#nodes/offset)) + 6)
+    monitor.setCursorPos(xoffset, 2)
+    monitor.write("Page " .. pageNumber .. "/" .. math.ceil(#nodes/offset))
+
     drawLine(3)
 
     if #nodes == 0 then
@@ -103,9 +107,6 @@ end
 local nodes = {}
 
 monitorInit()
-
-
-local offset = monitorY-4
 updateDisplay(nodes, 1, offset)
 
 while true do
