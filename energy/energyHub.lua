@@ -34,7 +34,7 @@ function drawLine(y)
 end
 
 function centerText(text, y)
-    local x = math.floor((monitorX - string.len(text)) / 2)
+    local x = math.ceil((monitorX - string.len(text)) / 2) + 1
     monitor.setCursorPos(x, y)
     monitor.write(text)
 end

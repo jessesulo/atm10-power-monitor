@@ -34,7 +34,7 @@ function drawLine(y)
 end
 
 function centerText(text, y)
-    local x = math.floor((monitorX - string.len(text)) / 2)
+    local x = math.ceil((monitorX - string.len(text)) / 2) + 1
     monitor.setCursorPos(x, y)
     monitor.write(text)
 end
@@ -71,7 +71,7 @@ function updateDisplay(nodes, start, endL)
             monitor.setTextColor(colors.red)
         end
 
-        monitor.setCursorPos(string.len(outString) + 1, lineTrack)
+        monitor.setCursorPos(string.len(outString) + 2, lineTrack)
         monitor.write("(" .. differenceStr .. nodes[i].difference .. ")")
 
         monitor.setTextColor(colors.black)
@@ -95,7 +95,7 @@ while true do
 
     local cursor = 1
     while cursor < #message do
-        updateDisplay(message, cursor, cursor + offset)
+        updateDisplay(message, cursor, cursor + offset - 1)
         cursor = cursor + offset
         sleep(7)
     end
