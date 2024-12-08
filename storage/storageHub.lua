@@ -53,10 +53,8 @@ function updateDisplay(nodes, start, endL)
     end
 
     for i=start,endL do
-        monitor.setCursorPos(1, startLine+1)
-        monitor.write(i .. ". " .. nodes[i].name)
-        monitor.setCursorPos(monitorX-#nodes[i].count, startLine+1)
-        monitor.write(nodes[i].count)
+        monitor.setCursorPos(1, startLine+i)
+        monitor.write(i .. ". " .. nodes[i].name .. " - " .. nodes[i].count)
     end
 end
 
@@ -71,16 +69,11 @@ updateDisplay(nodes, 1, offset)
 while true do
     local id, message = rednet.receive("storageTransmission")
 
-    for i = 1,#message do
-        nodes[message[i].name] = message[i].count
-    end
-
-    table.sort(nodes, function(a, b) return a.count < b.count end)
+    table.sort(message, function(a, b) return a.count > b.count end)
 
     local cursor = 1
-
-    while cursor < #nodes do
-        updateDisplay(nodes, cursor, offset)
+    while cursor < #message do
+        updateDisplay(message, cursor, offset)
         cursor = cursor + offset
         sleep(5)
     end

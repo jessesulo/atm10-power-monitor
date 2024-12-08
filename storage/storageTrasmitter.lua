@@ -13,12 +13,12 @@ local inv = peripheral.find("inventory")
 local invSize = inv.size()
 
 while true do
-    local listPayload = {}
+    local itemPayload = {}
     for i = 1, invSize do
         local item = inv.getItemDetail(i)
 
         if item ~= null then
-            listPayload.insert({
+            table.insert(itemPayload,{
                 name = item.displayName,
                 count = item.count
             })
