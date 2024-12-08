@@ -21,11 +21,10 @@ while true do
     if count == 10 then
         local payload = {
             name = name,
-            energy = tostring(totalEnergy/10)
+            energy = totalEnergy/10
         }
 
         print("Transmitting data:")
-        print(textutils.serialize(payload))
 
         rednet.broadcast(payload, "energyTransmission")
         count = 0

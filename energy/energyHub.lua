@@ -39,6 +39,24 @@ function centerText(text, y)
     monitor.write(text)
 end
 
+function parseNumber(number)
+    local formatted = number
+    
+    if number > 1000000000000000 then
+        formatted = string.format("%.2f", number / 1000000000000) .. "G"
+    elseif number > 1000000000000 then
+        formatted = string.format("%.2f", number / 1000000000000) .. "T"
+    elseif number > 1000000000 then
+        formatted = string.format("%.2f", number / 1000000000) .. "B"
+    elseif number > 1000000 then
+        formatted = string.format("%.2f", number / 1000000) .. "M"
+    elseif number > 1000 then
+        formatted = string.format("%.2f", number / 1000) .. "K"
+    end
+    
+    return formatted
+end
+
 function updateDisplay(nodes)
     monitor.setCursorPos(1, 2)
     centerText("Energy Monitor", 2)
@@ -66,10 +84,9 @@ function updateDisplay(nodes)
     for name, energy in pairs(nodes) do
         monitor.setCursorPos(1, lineCount)
 
-        energy = energy:match("^[^.]*")
-        energy = energy:reverse():gsub("(%d%d%d)", "%1,"):gsub(",$", ""):reverse()
+        energy = parseNumber(energy)
 
-        monitor.write(" " .. name .. ": " .. energy .. " FE/t                       ")
+        monitor.write(" " .. name .. ": " .. energy .. "                        ")
 
         lineCount = lineCount + 1
     end

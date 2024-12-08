@@ -39,6 +39,24 @@ function centerText(text, y)
     monitor.write(text)
 end
 
+function parseNumber(number)
+    local formatted = number
+    
+    if number > 1000000000000000 then
+        formatted = string.format("%.2f", number / 1000000000000) .. "G"
+    elseif number > 1000000000000 then
+        formatted = string.format("%.2f", number / 1000000000000) .. "T"
+    elseif number > 1000000000 then
+        formatted = string.format("%.2f", number / 1000000000) .. "B"
+    elseif number > 1000000 then
+        formatted = string.format("%.2f", number / 1000000) .. "M"
+    elseif number > 1000 then
+        formatted = string.format("%.2f", number / 1000) .. "K"
+    end
+    
+    return formatted
+end
+
 function updateDisplay(nodes, start, endL)
     clearMonitor()
     monitor.setCursorPos(1, 2)
@@ -59,7 +77,8 @@ function updateDisplay(nodes, start, endL)
             break
         end
         
-        local outString = i .. ". " .. nodes[i].name .. " - " .. nodes[i].count
+        local countString = parseNumber(nodes[i].count)
+        local outString = i .. ". " .. nodes[i].name .. " - " .. countString
         monitor.setCursorPos(1, lineTrack)
         monitor.write(outString)
         
