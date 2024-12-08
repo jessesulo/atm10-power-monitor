@@ -69,12 +69,12 @@ function updateDisplay(nodes, start, endL)
             differenceStr = "+"
         elseif nodes[i].difference < 0 then
             monitor.setTextColor(colors.red)
-        else
-            monitor.setTextColor(colors.black)
         end
 
         monitor.setCursorPos(string.len(outString) + 1, lineTrack)
         monitor.write("(" .. differenceStr .. nodes[i].difference .. ")")
+
+        monitor.setTextColor(colors.black)
 
         lineTrack = lineTrack + 1
     end

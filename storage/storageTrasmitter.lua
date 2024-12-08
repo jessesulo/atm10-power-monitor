@@ -1,6 +1,3 @@
-print("Enter the side of the energy cell: ")
-local amountPer = tonumber(io.read("*l"))
-
 rednet.open("right")
 rednet.CHANNEL_BROADCAST = 1414
 
@@ -24,9 +21,8 @@ while true do
             local difference = 0
             if(lastPayload[item.displayName] ~= nil) then
                 difference = item.count - lastPayload[item.displayName]
-            else
-                lastPayload[item.displayName] = item.count
             end
+            lastPayload[item.displayName] = item.count
 
             table.insert(itemPayload,{
                 name = item.displayName,
